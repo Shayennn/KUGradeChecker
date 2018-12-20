@@ -4,6 +4,8 @@ import numpy
 from sklearn import tree
 import pickle
 import time
+from os import listdir
+from os.path import isfile, join
 
 class Resolver:
     def __init__(self, imgbyte):
@@ -14,11 +16,29 @@ class Resolver:
             output.close()
         self.filterimg()
         
+    def __train_from_file__(self):
+        number = []
+        tag = []
+        for num in range(0,10):
+            for f in listdir('img/'+str(num)):
+                if isfile(join('img/'+str(num), f)):
+                    thisimg = cv2.imread('img/'+str(num)+'/'+f)
+                    bw = cv2.inRange(thisimg,(0,0,200),(0,0,255))
+                    bw=bw.reshape(80)/255
+                    number.append(bw.copy())
+                    tag.append(str(num))
+        clf = tree.DecisionTreeClassifier()
+        clf.fit(number,tag)
+        print('Trained')
+        with open('model.pkl',mode='wb') as output:
+            pickle.dump(clf,output)
+            output.close()
+        
 
     def __train__(self):
         number = []
         tag = []
-        for _ in range(300):
+        for _ in range(1000):
             req = requests.get('https://grade-std.ku.ac.th/image_capt.php')
             imgarr = numpy.fromstring(req.content, numpy.uint8)
             self.img = cv2.imdecode(imgarr,cv2.IMREAD_COLOR)
