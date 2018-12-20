@@ -23,6 +23,7 @@ class Resolver:
             for f in listdir('img/'+str(num)):
                 if isfile(join('img/'+str(num), f)):
                     thisimg = cv2.imread('img/'+str(num)+'/'+f)
+                    thisimg = cv2.cvtColor(thisimg, cv2.COLOR_RGB2HSV_FULL)
                     bw = cv2.inRange(thisimg,(0,0,200),(0,0,255))
                     bw=bw.reshape(80)/255
                     number.append(bw.copy())
