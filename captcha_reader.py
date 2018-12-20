@@ -6,14 +6,16 @@ import pickle
 import time
 from os import listdir
 from os.path import isfile, join
+import tensorflow as tf
 
 class Resolver:
     def __init__(self, imgbyte):
         imgarr = numpy.fromstring(imgbyte, numpy.uint8)
         self.img = cv2.imdecode(imgarr,cv2.IMREAD_COLOR)
-        with open('model.pkl','rb') as output:
-            self.model = pickle.load(output)
-            output.close()
+        # with open('model.pkl','rb') as output:
+        #     self.model = pickle.load(output)
+        #     output.close()
+        self.model = tf.keras.models.load_model('model.h5')
         self.filterimg()
         
     def __train_from_file__(self):
@@ -27,14 +29,26 @@ class Resolver:
                     bw = cv2.inRange(thisimg,(0,0,200),(0,0,255))
                     bw=bw.reshape(80)/255
                     number.append(bw.copy())
-                    tag.append(str(num))
-        clf = tree.DecisionTreeClassifier()
-        clf.fit(number,tag)
+                    tag.append(num)
+        number = numpy.array(number)
+        tag = numpy.array(tag)
+        clf = tf.keras.models.Sequential([
+            tf.keras.layers.Flatten(),
+            tf.keras.layers.Dense(512, activation=tf.nn.relu),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(10, activation=tf.nn.softmax)
+        ])
+        clf.compile(optimizer='adam',
+                    loss='sparse_categorical_crossentropy',
+                    metrics=['accuracy'])
+        print(number.shape)
+        clf.fit(number,tag, epochs=5)
         print('Trained')
-        with open('model.pkl',mode='wb') as output:
-            pickle.dump(clf,output)
-            output.close()
-        
+        clf.save('model.h5')
+        # with open('model.pkl',mode='wb') as output:
+        #     pickle.dump(clf,output)
+        #     output.close()
+        exit()
 
     def __train__(self):
         number = []
@@ -57,24 +71,41 @@ class Resolver:
                 if chr(key)=='x':
                     digtag = []
                 else:
-                    digtag.append(chr(key))
+                    digtag.append(int(chr(key)))
                 print(digtag)
             for i in range(4):
                 number.append(self.digit[i].copy())
                 millis = int(round(time.time() * 1000))
-                cv2.imwrite('img/'+digtag[i]+'/'+str(millis)+str(i)+'.png',self.digit[i].reshape(10,8)*255)
+                cv2.imwrite('img/'+int(digtag[i])+'/'+str(millis)+str(i)+'.png',self.digit[i].reshape(10,8)*255)
             tag+=digtag
             print('----------')
-        clf = tree.DecisionTreeClassifier()
-        clf.fit(number,tag)
+        number = numpy.array(number)
+        tag = numpy.array(tag)
+        clf = tf.keras.models.Sequential([
+            tf.keras.layers.Flatten(),
+            tf.keras.layers.Dense(512, activation=tf.nn.relu),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(10, activation=tf.nn.softmax)
+        ])
+        clf.compile(optimizer='adam',
+                    loss='sparse_categorical_crossentropy',
+                    metrics=['accuracy'])
+        print(number.shape)
+        clf.fit(number,tag, epochs=5)
         print('Trained')
-        with open('model.pkl',mode='wb') as output:
-            pickle.dump(clf,output)
-            output.close()
+        clf.save('model.h5')
+        # clf = tree.DecisionTreeClassifier()
+        # clf.fit(number,tag)
+        # print('Trained')
+        # with open('model.pkl',mode='wb') as output:
+        #     pickle.dump(clf,output)
+        #     output.close()
         exit()
 
     def resolve(self):
-        return ''.join(self.model.predict(self.digit))
+        output = self.model.predict_classes(numpy.array(self.digit))
+        output = [str(x) for x in output]
+        return ''.join(output)
 
     def showimg(self):
         cv2.imshow('Captcha',cv2.resize(self.img, (0,0),fx=5,fy=5))
