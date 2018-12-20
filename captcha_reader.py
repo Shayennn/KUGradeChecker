@@ -103,13 +103,17 @@ class Resolver:
         exit()
 
     def resolve(self):
-        output = self.model.predict_classes(numpy.array(self.digit))
-        output = [str(x) for x in output]
-        return ''.join(output)
+        self.result = self.model.predict_classes(numpy.array(self.digit))
+        self.result = [str(x) for x in self.result]
+        return ''.join(self.result)
 
     def showimg(self):
         cv2.imshow('Captcha',cv2.resize(self.img, (0,0),fx=5,fy=5))
         cv2.waitKey(0)
+
+    def saveresult(self):
+        millis = int(round(time.time() * 1000))
+        cv2.imwrite('error/'+''.join(self.result)+'.png',self.img)
 
     def filterimg(self):
         self.filtered = cv2.cvtColor(self.img, cv2.COLOR_RGB2HSV_FULL)

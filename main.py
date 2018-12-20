@@ -59,6 +59,7 @@ class GradeChecker:
         page_data = req.text.replace('&nbsp;',' ')
         doc = html.fromstring(req.text)
         if page_data.count('Wrong Code Entered')>0:
+            rsv.saveresult()
             return (False, 'Wrong Code Entered')
         bold = doc.findall('.//b')
         FONT = doc.findall('.//font')
