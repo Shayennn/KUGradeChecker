@@ -103,7 +103,7 @@ class Resolver:
         exit()
 
     def resolve(self):
-        self.result = self.model.predict_classes(numpy.array(self.digit), batch_size = 1) # For low memory
+        self.result = self.model.predict_classes(numpy.array(self.digit))
         self.result = [str(x) for x in self.result]
         return ''.join(self.result)
 
