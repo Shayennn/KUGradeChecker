@@ -39,7 +39,7 @@ if __name__ == "__main__":
                 print('['+code+']',sub_data['name'],'Sec:',sub_data['section'],'Credit:',sub_data['credit'])
                 print('\tGrade:',sub_data['grade'])
                 print('\tStatus:',sub_data['status'])
-                if code not in old_data:
+                if old_data[code]['grade'] == '':
                     msg=['['+code+'] '+sub_data['name']+' Sec: '+sub_data['section']+' Credit: '+sub_data['credit']]
                     msg+=['ได้บันทึกเกรดลงระบบแล้ว']
                     msg+=['Grade: '+sub_data['grade']]
