@@ -24,12 +24,14 @@ if __name__ == "__main__":
         with open('credential.pkl',mode='wb') as output:
             pickle.dump((username,password,line_token),output)
             output.close()
+    count = 0
     err_count = 0
     while True:
         obj = GradeChecker()
         ret, err = obj.login(username, password)
+        count+=1
         if ret:
-            print('Logged in (',err_count,')')
+            print('Logged in (',err_count,'/',count,')')
         else:
-            print('LoginERR:',err)
             err_count+=1
+            print('LoginERR:',err)
