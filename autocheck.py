@@ -48,8 +48,8 @@ if __name__ == "__main__":
                 elif old_data[code]['status'] != sub_data['status']:
                     msg=['['+code+'] '+sub_data['name']+' Sec: '+sub_data['section']+' Credit: '+sub_data['credit']]
                     msg+=['ได้เปลี่ยนแปลงสถานะเกรด']
-                    msg+=['จาก: '+old_data[code]['status']]
-                    msg+=['เป็น: '+sub_data['status']]
+                    msg+=['Grade: '+sub_data['grade']]
+                    msg+=['Status: '+old_data[code]['status']+'=>'+sub_data['status']]
                     r = requests.post(line_url, headers=line_headers , data = {'message':'\n'.join(msg)})
             with open('data.pkl',mode='wb') as output:
                 pickle.dump(data,output)
