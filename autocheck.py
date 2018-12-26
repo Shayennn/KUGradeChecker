@@ -39,13 +39,13 @@ if __name__ == "__main__":
                 print('['+code+']',sub_data['name'],'Sec:',sub_data['section'],'Credit:',sub_data['credit'])
                 print('\tGrade:',sub_data['grade'])
                 print('\tStatus:',sub_data['status'])
-                if code in old_data and old_data[code]['grade'] == '':
+                if (code in old_data and old_data[code]['grade'] == '') or code not in old_data:
                     msg=['['+code+'] '+sub_data['name']+' Sec: '+sub_data['section']+' Credit: '+sub_data['credit']]
                     msg+=['ได้บันทึกเกรดลงระบบแล้ว']
                     msg+=['Grade: '+sub_data['grade']]
                     msg+=['Status: '+sub_data['status']]
                     r = requests.post(line_url, headers=line_headers , data = {'message':'\n'.join(msg)})
-                elif old_data[code]['status'] != sub_data['status']:
+                elif code in old_data and old_data[code]['status'] != sub_data['status']:
                     msg=['['+code+'] '+sub_data['name']+' Sec: '+sub_data['section']+' Credit: '+sub_data['credit']]
                     msg+=['ได้เปลี่ยนแปลงสถานะเกรด']
                     msg+=['Grade: '+sub_data['grade']]
