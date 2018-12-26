@@ -1,0 +1,6 @@
+getpass
+requests
+opencv-python
+numpy
+tensorflow
+lxml
