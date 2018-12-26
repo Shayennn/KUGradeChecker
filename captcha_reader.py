@@ -1,7 +1,7 @@
 import requests
 import cv2
 import numpy
-from sklearn import tree
+# from sklearn import tree
 import pickle
 import time
 from os import listdir
