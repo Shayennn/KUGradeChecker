@@ -29,8 +29,6 @@ class GradeChecker:
     def __init__(self, sleep=False):
         self.req = requests.Session()
         self.sleep = sleep
-        if True:
-            self.host = 'https://localhost'
 
     def login(self, username, password):
         self.req.get(self.host+self.page_url['login'], headers = self.headers)
