@@ -52,7 +52,7 @@ if __name__ == "__main__":
                 print('\tStatus:',sub_data['status'])
                 if (code in old_data and old_data[code]['grade'] == '') or code not in old_data:
                     if code in announce_list:
-                        msg=[sub_data['name']+' อัพโหลดเกรดขึ้นระบบแล้ว','']
+                        msg=[sub_data['name']+' เซ็ค '+sub_data['section']+' อัพโหลดเกรดขึ้นระบบแล้ว','']
                         msg+=['สามารถดูได้ที่ https://goo.gl/kUBHfa','หรือผ่านแอพ NisitKU']
                         r = requests.post(line_url, headers=cpe_line_headers , data = {'message':'\n'.join(msg)})
                     msg=['['+code+'] '+sub_data['name']+' Sec: '+sub_data['section']+' Credit: '+sub_data['credit']]
