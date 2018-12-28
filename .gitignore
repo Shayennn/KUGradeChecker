@@ -1,5 +1,3 @@
 img/*
 __pycache__/*
-credential.pkl
-credential_cpe.pkl
-data.pkl
+*.pkl
