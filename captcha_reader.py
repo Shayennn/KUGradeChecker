@@ -1,8 +1,6 @@
 import requests
 import cv2
 import numpy
-# from sklearn import tree
-import pickle
 import time
 from os import listdir
 from os.path import isfile, join
@@ -12,9 +10,6 @@ class Resolver:
     def __init__(self, imgbyte):
         imgarr = numpy.fromstring(imgbyte, numpy.uint8)
         self.img = cv2.imdecode(imgarr,cv2.IMREAD_COLOR)
-        # with open('model.pkl','rb') as output:
-        #     self.model = pickle.load(output)
-        #     output.close()
         self.model = tf.keras.models.load_model('model.h5')
         self.filterimg()
         
@@ -45,9 +40,6 @@ class Resolver:
         clf.fit(number,tag, epochs=5)
         print('Trained')
         clf.save('model.h5')
-        # with open('model.pkl',mode='wb') as output:
-        #     pickle.dump(clf,output)
-        #     output.close()
         exit()
 
     def __train__(self):
@@ -94,12 +86,6 @@ class Resolver:
         clf.fit(number,tag, epochs=5)
         print('Trained')
         clf.save('model.h5')
-        # clf = tree.DecisionTreeClassifier()
-        # clf.fit(number,tag)
-        # print('Trained')
-        # with open('model.pkl',mode='wb') as output:
-        #     pickle.dump(clf,output)
-        #     output.close()
         exit()
 
     def resolve(self):
