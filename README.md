@@ -20,9 +20,12 @@ Then you'll see your current grade.
 
 ### Auto checking
 ```
-python3 autocheck.py
+python3 autocheck_cpe.py
 ```
 For the first time. Please enter your Nontri account and your Line Notify Dev Token. (From [LINE Notify](https://notify-bot.line.me/my/))
+
+`Token` is your private token.
+`CPE Token` is public token. It doesn't tell your grade.
 
 Then you must to set cronjob or anything else like it.
 
