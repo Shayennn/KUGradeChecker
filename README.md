@@ -40,4 +40,4 @@ Then enter this to the end of file.
 * 512MB of Memory
 
 # License
-All right reserve
+All right reserved
