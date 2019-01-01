@@ -12,17 +12,17 @@ pip3 install -r requirements.txt
 ```
 ### Testing
 ```
-python3 main.py
+python3 check_by_parent.py
 ```
-The program will ask you for Username and Password. Please feel free and enter your Nontri account.
+The program will ask you for Username and Password. Please feel free and enter your student id, birthday and parent's Thai id.
 
 Then you'll see your current grade.
 
 ### Auto checking
 ```
-python3 autocheck.py
+python3 autocheck_cpe_parent.py
 ```
-For the first time. Please enter your Nontri account and your Line Notify Dev Token. (From [LINE Notify](https://notify-bot.line.me/my/))
+For the first time. Please enter your student id, birthday, parent's Thai id and your Line Notify Dev Token. (From [LINE Notify](https://notify-bot.line.me/my/))
 
 Then you must to set cronjob or anything else like it.
 
@@ -36,8 +36,7 @@ Then enter this to the end of file.
 */2 * * * * cd PATH_TO_KUGradeChecker&&timeout 30 python3 autocheck.py
 ```
 # Minimum Requirement
-* Operating system that can install Tensorflow(Python)
-* 512MB of Memory
+May be very low. (I didn't massure.)
 
 # License
 All right reserve
