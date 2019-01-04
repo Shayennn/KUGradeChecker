@@ -80,4 +80,4 @@ if __name__ == "__main__":
                 print('GradeERR:',data)
         else:
             print('LoginERR:',err)
-        time.sleep(10)
+        time.sleep(5)
