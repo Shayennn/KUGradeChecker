@@ -7,12 +7,12 @@ from os.path import isfile, join
 import tensorflow as tf
 
 class Resolver:
-    def __init__(self, imgbyte):
+    def setimg(self, imgbyte):
         imgarr = numpy.fromstring(imgbyte, numpy.uint8)
         self.img = cv2.imdecode(imgarr,cv2.IMREAD_COLOR)
         self.model = tf.keras.models.load_model('model.h5')
         self.filterimg()
-        
+            
     def __train_from_file__(self):
         number = []
         tag = []

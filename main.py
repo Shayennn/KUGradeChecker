@@ -27,21 +27,22 @@ class GradeChecker:
     }
 
     def __init__(self, sleep=False):
-        self.req = requests.Session()
+        self.rsv = cr.Resolver()
         self.sleep = sleep
 
     def login(self, username, password):
+        self.req = requests.Session()
         self.req.get(self.host+self.page_url['login'], headers = self.headers)
         if self.sleep:
             sleeptime = random.randint(1,50)/100
             time.sleep(sleeptime)
         req = self.req.get(self.host+self.page_url['captcha'], headers = self.headers)
-        rsv = cr.Resolver(req.content)
         
+        self.rsv.setimg(req.content)
         # Uncomment this line to train the simple captcha resolver
         # rsv.__train__()
 
-        captcha = rsv.resolve()
+        captcha = self.rsv.resolve()
         # print(captcha)
         # rsv.showimg()
         post_data = {
@@ -57,7 +58,7 @@ class GradeChecker:
         page_data = req.text.replace('&nbsp;',' ')
         doc = html.fromstring(req.text)
         if page_data.count('Wrong Code Entered')>0:
-            rsv.saveresult()
+            self.rsv.saveresult()
             return (False, 'Wrong Code Entered')
         bold = doc.findall('.//b')
         FONT = doc.findall('.//font')
