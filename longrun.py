@@ -21,13 +21,6 @@ if __name__ == "__main__":
     ]
 
     try:
-        with open('data.pkl','rb') as output:
-            old_data = pickle.load(output)
-            output.close()
-    except FileNotFoundError:
-        old_data = {}
-
-    try:
         with open('credential_cpe.pkl','rb') as output:
             username,password,line_token,cpe_line_token = pickle.load(output)
             output.close()
@@ -44,6 +37,12 @@ if __name__ == "__main__":
 
     obj = GradeChecker()
     while True:
+        try:
+            with open('data.pkl','rb') as output:
+                old_data = pickle.load(output)
+                output.close()
+        except FileNotFoundError:
+            old_data = {}
         print('=========================')
         print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         print('=========================')
