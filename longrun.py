@@ -1,5 +1,6 @@
 #! /usr/bin/python3
 
+import datetime
 import time
 import pickle
 from getpass import getpass
@@ -43,6 +44,9 @@ if __name__ == "__main__":
 
     obj = GradeChecker()
     while True:
+        print('=========================')
+        print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        print('=========================')
         ret, err = obj.login(username, password)
         if ret:
             ret, data = obj.getGrade(61,1)
