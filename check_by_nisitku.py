@@ -30,7 +30,6 @@ class GradeChecker:
             return (False, res['err_desc'])
         self.userinfo['name'] = res['name_th']
         self.userinfo['stdcode'] = res['surname_th']
-        self.logged_in = True
         self.token = res['token']
         self.id = res['id']
         return (True, self.userinfo)
@@ -39,7 +38,7 @@ class GradeChecker:
         return int(sem['year']+sem['semester'])
 
     def getGrade(self):
-        if not self.logged_in:
+        if self.token == '':
             return (False, 'Please call login function')
         grade = {}
         post_data = {
