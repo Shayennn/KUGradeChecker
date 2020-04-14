@@ -50,7 +50,7 @@ if __name__ == "__main__":
                 print('['+code+']', sub_data['name'],
                       'Credit:', sub_data['credit'])
                 print('\tGrade:', sub_data['grade'])
-                if code not in old_data and sub_data['grade'] != ' ':
+                if code not in old_data and sub_data['grade'] != 'N':
                     if code in announce_list:
                         msg = [sub_data['name']+' อัพโหลดเกรดขึ้นระบบแล้ว', '']
                         msg += ['สามารถดูได้ที่ https://goo.gl/kUBHfa',

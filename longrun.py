@@ -55,12 +55,12 @@ if __name__ == "__main__":
             ret, data = obj.getGrade()
             if ret:
                 for code, sub_data in data.items():
-                    if sub_data['grade'] == '':
+                    if sub_data['grade'] == 'N':
                         continue
                     print('['+code+']', sub_data['name'], 'Credit:', sub_data['credit'])
                     print('\tGrade:', sub_data['grade'])
                     print('\tStatus:', sub_data['status'])
-                    if (code in old_data and old_data[code]['grade'] == '') or code not in old_data:
+                    if (code in old_data and old_data[code]['grade'] == 'N') or code not in old_data:
                         if code in announce_list:
                             msg = [sub_data['name']+' อัพโหลดเกรดขึ้นระบบแล้ว', '']
                             msg += ['สามารถดูได้ที่ https://goo.gl/kUBHfa',
