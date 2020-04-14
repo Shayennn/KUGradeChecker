@@ -5,7 +5,7 @@ import time
 import pickle
 from getpass import getpass
 import requests
-from check_by_parent import GradeChecker
+from check_by_nisitku import GradeChecker
 
 if __name__ == "__main__":
     line_url = 'https://notify-api.line.me/api/notify'
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     obj = GradeChecker()
     while True:
         try:
-            with open('parent_data.pkl', 'rb') as output:
+            with open('nisitku_data.pkl', 'rb') as output:
                 old_data = pickle.load(output)
                 output.close()
         except FileNotFoundError:
@@ -81,7 +81,7 @@ if __name__ == "__main__":
                                 ['status']+'=>'+sub_data['status']]
                         r = requests.post(line_url, headers=line_headers, data={
                                           'message': '\n'.join(msg)})
-                with open('parent_data.pkl', mode='wb') as output:
+                with open('nisitku_data.pkl', mode='wb') as output:
                     pickle.dump(data, output)
                     output.close()
             else:

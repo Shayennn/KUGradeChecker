@@ -14,7 +14,7 @@ if __name__ == "__main__":
     ]
 
     try:
-        with open('parent_data.pkl', 'rb') as output:
+        with open('nisitku_data.pkl', 'rb') as output:
             old_data = pickle.load(output)
             output.close()
     except FileNotFoundError:
@@ -50,7 +50,7 @@ if __name__ == "__main__":
                 print('['+code+']', sub_data['name'],
                       'Credit:', sub_data['credit'])
                 print('\tGrade:', sub_data['grade'])
-                if code not in old_data:
+                if code not in old_data and sub_data['grade'] != ' ':
                     if code in announce_list:
                         msg = [sub_data['name']+' อัพโหลดเกรดขึ้นระบบแล้ว', '']
                         msg += ['สามารถดูได้ที่ https://goo.gl/kUBHfa',
@@ -63,7 +63,7 @@ if __name__ == "__main__":
                     msg += ['Grade: '+sub_data['grade']]
                     r = requests.post(line_url, headers=line_headers, data={
                                       'message': '\n'.join(msg)})
-            with open('parent_data.pkl', mode='wb') as output:
+            with open('nisitku_data.pkl', mode='wb') as output:
                 pickle.dump(data, output)
                 output.close()
         else:
