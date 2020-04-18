@@ -1,5 +1,6 @@
 #! /usr/bin/python3
 
+import datetime
 import pickle
 from getpass import getpass
 import requests
@@ -8,10 +9,10 @@ from check_by_nisitku import GradeChecker
 if __name__ == "__main__":
     line_url = 'https://notify-api.line.me/api/notify'
 
-    announce_list = [
-        '01999011',
-        '01420111'
-    ]
+    announce_file = open('announce_list.txt', 'r')
+    announce_list = [line for line in announce_file.readlines()
+                     if len(line) == 8]
+    announce_file.close()
 
     obj = GradeChecker()
 
@@ -45,13 +46,17 @@ if __name__ == "__main__":
     cpe_line_headers = {'content-type': 'application/x-www-form-urlencoded',
                         'Authorization': 'Bearer '+cpe_line_token}
 
+print('=========================')
+print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+print('=========================')
+
 ret, data = obj.getGrade()
 if ret:
     for code, sub_data in data.items():
         if sub_data['grade'] == '':
             continue
         print('['+code+']', sub_data['name'],
-            'Credit:', sub_data['credit'])
+              'Credit:', sub_data['credit'])
         print('\tGrade:', sub_data['grade'])
         if code not in old_data and sub_data['grade'] != 'N':
             if code in announce_list:
@@ -59,13 +64,13 @@ if ret:
                 msg += ['สามารถดูได้ที่ https://goo.gl/kUBHfa',
                         'หรือผ่านแอพ NisitKU']
                 r = requests.post(line_url, headers=cpe_line_headers, data={
-                                'message': '\n'.join(msg)})
+                    'message': '\n'.join(msg)})
             msg = ['['+code+'] '+sub_data['name'] +
-                ' Credit: '+sub_data['credit']]
+                   ' Credit: '+sub_data['credit']]
             msg += ['ได้บันทึกเกรดลงระบบแล้ว']
             msg += ['Grade: '+sub_data['grade']]
             r = requests.post(line_url, headers=line_headers, data={
-                            'message': '\n'.join(msg)})
+                'message': '\n'.join(msg)})
     with open('nisitku_data.pkl', mode='wb') as output:
         pickle.dump(data, output)
         output.close()

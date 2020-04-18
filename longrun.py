@@ -10,15 +10,10 @@ from check_by_nisitku import GradeChecker
 if __name__ == "__main__":
     line_url = 'https://notify-api.line.me/api/notify'
 
-    announce_list = [
-        '01204111',
-        '01420113',
-        '01417167',
-        '01420111',
-        '01999021',
-        '01999111',
-        '01420112'
-    ]
+    announce_file = open('announce_list.txt', 'r')
+    announce_list = [line for line in announce_file.readlines()
+                     if len(line) == 8]
+    announce_file.close()
 
     obj = GradeChecker()
     try:
@@ -58,7 +53,8 @@ while True:
         for code, sub_data in data.items():
             if sub_data['grade'] == 'N':
                 continue
-            print('['+code+']', sub_data['name'], 'Credit:', sub_data['credit'])
+            print('['+code+']', sub_data['name'],
+                  'Credit:', sub_data['credit'])
             print('\tGrade:', sub_data['grade'])
             print('\tStatus:', sub_data['status'])
             if (code in old_data and old_data[code]['grade'] == 'N') or code not in old_data:
@@ -67,21 +63,23 @@ while True:
                     msg += ['สามารถดูได้ที่ https://goo.gl/kUBHfa',
                             'หรือผ่านแอพ NisitKU']
                     r = requests.post(line_url, headers=cpe_line_headers, data={
-                                        'message': '\n'.join(msg)})
-                msg = ['['+code+'] '+sub_data['name']+' Credit: '+sub_data['credit']]
+                        'message': '\n'.join(msg)})
+                msg = ['['+code+'] '+sub_data['name'] +
+                       ' Credit: '+sub_data['credit']]
                 msg += ['ได้บันทึกเกรดลงระบบแล้ว']
                 msg += ['Grade: '+sub_data['grade']]
                 msg += ['Status: '+sub_data['status']]
                 r = requests.post(line_url, headers=line_headers, data={
-                                    'message': '\n'.join(msg)})
+                    'message': '\n'.join(msg)})
             elif code in old_data and old_data[code]['status'] != sub_data['status']:
-                msg = ['['+code+'] '+sub_data['name']+' Credit: '+sub_data['credit']]
+                msg = ['['+code+'] '+sub_data['name'] +
+                       ' Credit: '+sub_data['credit']]
                 msg += ['ได้เปลี่ยนแปลงสถานะเกรด']
                 msg += ['Grade: '+sub_data['grade']]
                 msg += ['Status: '+old_data[code]
                         ['status']+'=>'+sub_data['status']]
                 r = requests.post(line_url, headers=line_headers, data={
-                                    'message': '\n'.join(msg)})
+                    'message': '\n'.join(msg)})
         with open('nisitku_data.pkl', mode='wb') as output:
             pickle.dump(data, output)
             output.close()
