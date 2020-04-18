@@ -11,8 +11,9 @@ if __name__ == "__main__":
     line_url = 'https://notify-api.line.me/api/notify'
 
     announce_file = open('announce_list.txt', 'r')
-    announce_list = [line for line in announce_file.readlines()
-                     if len(line) == 8]
+    announce_list = [line.replace('\n', '').replace('\r', '')
+                     for line in announce_file.readlines()
+                     if len(line.replace('\n', '').replace('\r', '')) == 8]
     announce_file.close()
 
     obj = GradeChecker()
