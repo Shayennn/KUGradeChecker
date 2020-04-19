@@ -1,42 +1,59 @@
 # KUGradeChecker
+
 This is bot for checking grade updating via Kasetsart University Student grade system. It'll notify by Line Notify.
 
 ## Usage
+
 Clone this repo by
+
+``` bash
+git clone --branch NisitApp https://github.com/Shayennn/KUGradeChecker.git
 ```
-git clone https://github.com/Shayennn/KUGradeChecker.git
-```
+
 Then run this command to install require packages.
-```
+
+``` bash
 pip3 install -r requirements.txt
 ```
+
 ### Testing
+
+``` bash
+python3 check_by_nisitku.py
 ```
-python3 check_by_parent.py
-```
-The program will ask you for Username and Password. Please feel free and enter your student id, birthday and parent's Thai id.
+
+The program will ask you for Username and Password. Please feel free and enter your Nontri Account Username, Password.
 
 Then you'll see your current grade.
 
 ### Auto checking
+
+``` bash
+python3 autocheck_group.py
 ```
-python3 autocheck_cpe_parent.py
-```
-For the first time. Please enter your student id, birthday, parent's Thai id and your Line Notify Dev Token. (From [LINE Notify](https://notify-bot.line.me/my/))
+
+For the first time. Please enter your Nontri Account Username, Password and your Line Notify Dev Token. (From [LINE Notify](https://notify-bot.line.me/my/))
 
 Then you must to set cronjob or anything else like it.
 
 #### Crontab setting
+
 This is an example of setting crontab for auto update grade every 2 mins.
-```
+
+``` bash
 crontab -e
 ```
+
 Then enter this to the end of file.
+
+``` text
+*/2 * * * * (cd PATH_TO_KUGradeChecker&&timeout 30 python3 autocheck_group.py >> check.log)
 ```
-*/2 * * * * cd PATH_TO_KUGradeChecker&&timeout 30 python3 autocheck.py
-```
-# Minimum Requirement
+
+## Minimum Requirement
+
 May be very low. (I didn't massure.)
 
-# License
+## License
+
 All right reserve
