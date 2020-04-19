@@ -26,26 +26,26 @@ if __name__ == "__main__":
 
     try:
         with open('credential_nisitku.pkl', 'rb') as output:
-            obj.id, obj.token, line_token, cpe_line_token = pickle.load(
+            obj.id, obj.token, line_token, group_line_token = pickle.load(
                 output)
             output.close()
     except FileNotFoundError:
         username = input('Username: ')
         password = getpass('Password: ')
         line_token = input('LineToken: ')
-        cpe_line_token = input('CPE_Token: ')
+        group_line_token = input('Group_Token: ')
         ret, err = obj.login(username, password)
         if not ret:
             print('LoginERR:', err)
             exit()
         with open('credential_nisitku.pkl', mode='wb') as output:
             pickle.dump((obj.id, obj.token,
-                         line_token, cpe_line_token), output)
+                         line_token, group_line_token), output)
             output.close()
     line_headers = {'content-type': 'application/x-www-form-urlencoded',
                     'Authorization': 'Bearer '+line_token}
-    cpe_line_headers = {'content-type': 'application/x-www-form-urlencoded',
-                        'Authorization': 'Bearer '+cpe_line_token}
+    group_line_headers = {'content-type': 'application/x-www-form-urlencoded',
+                        'Authorization': 'Bearer '+group_line_token}
 
 print('=========================')
 print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -64,7 +64,7 @@ if ret:
                 msg = [sub_data['name']+' อัพโหลดเกรดขึ้นระบบแล้ว', '']
                 msg += ['สามารถดูได้ที่ https://goo.gl/kUBHfa',
                         'หรือผ่านแอพ NisitKU']
-                r = requests.post(line_url, headers=cpe_line_headers, data={
+                r = requests.post(line_url, headers=group_line_headers, data={
                     'message': '\n'.join(msg)})
             msg = ['['+code+'] '+sub_data['name'] +
                    ' Credit: '+sub_data['credit']]
