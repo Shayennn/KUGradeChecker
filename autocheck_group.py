@@ -54,7 +54,7 @@ print('=========================')
 ret, data = obj.getGrade()
 if ret:
     for code, sub_data in data.items():
-        if sub_data['grade'] == '':
+        if sub_data['grade'] == 'N':
             continue
         print('['+code+']', sub_data['name'],
               'Credit:', sub_data['credit'])
