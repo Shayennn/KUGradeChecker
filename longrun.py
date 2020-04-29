@@ -57,7 +57,7 @@ while True:
             print('\tGrade:', sub_data['grade'])
             if sub_data['grade'] == 'N':
                 continue
-            if code not in old_data and sub_data['grade'] != 'N':
+            if (code not in old_data or old_data[code]['grade'] == 'N') and sub_data['grade'] != 'N':
                 print('\t', end='')
                 if code in announce_list:
                     msg = [sub_data['name']+' อัพโหลดเกรดขึ้นระบบแล้ว', '']
@@ -77,7 +77,7 @@ while True:
                                       'message': '\n'.join(msg)
                                   })
                 print("Notified")
-            if code in old_data and old_data[code]['grade'] != sub_data['grade']:
+            elif code in old_data and old_data[code]['grade'] != sub_data['grade']:
                 print('\t', end='')
                 if code in announce_list:
                     msg = [sub_data['name']+' แก้ไขเกรดในระบบแล้ว', '']
