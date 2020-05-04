@@ -4,7 +4,7 @@ import datetime
 import pickle
 from getpass import getpass
 import requests
-from check_by_nisitku import GradeChecker
+from check_by_api import GradeChecker
 import twitter
 import sys
 
@@ -42,21 +42,14 @@ if __name__ == "__main__":
 
     try:
         with open('credential_nisitku.pkl', 'rb') as output:
-            obj.id, obj.token, line_token, group_line_token = pickle.load(
+            line_token, group_line_token = pickle.load(
                 output)
             output.close()
     except FileNotFoundError:
-        username = input('Username: ')
-        password = getpass('Password: ')
         line_token = input('LineToken: ')
         group_line_token = input('Group_Token: ')
-        ret, err = obj.login(username, password)
-        if not ret:
-            print('LoginERR:', err)
-            exit()
         with open('credential_nisitku.pkl', mode='wb') as output:
-            pickle.dump((obj.id, obj.token,
-                         line_token, group_line_token), output)
+            pickle.dump((line_token, group_line_token), output)
             output.close()
 
     if useTwitter:
@@ -78,14 +71,15 @@ if __name__ == "__main__":
     if ret:
         for code, sub_data in data.items():
             print('['+code+']', sub_data['name'],
-                  'Credit:', sub_data['credit'])
+                  'Section:', sub_data['section'])
             print('\tGrade:', sub_data['grade'])
+            print('\tStatus:', sub_data['status'])
             if sub_data['grade'] == 'N':
                 continue
-            if (code not in old_data or old_data[code]['grade'] == 'N') and sub_data['grade'] != 'N':
+            if (code not in old_data or old_data[code]['grade'] == 'N') and sub_data['grade'] != '':
                 print('\t', end='')
                 if code in announce_list:
-                    msg = [code+' '+sub_data['name'] +
+                    msg = [code+' '+sub_data['name'] + ' Sec: ' + sub_data['section'] +
                            ' อัพโหลดเกรดขึ้นระบบแล้ว', '']
                     if useTwitter:
                         print(api.PostUpdate('BOT: '+msg[0]).text)
@@ -95,29 +89,42 @@ if __name__ == "__main__":
                         'message': '\n'.join(msg)})
                     print("Announced & ", end='')
                 msg = ['['+code+'] '+sub_data['name'] +
-                       ' Credit: '+sub_data['credit']]
+                       ' Section: '+sub_data['section']]
                 msg += ['ได้บันทึกเกรดลงระบบแล้ว']
                 msg += ['Grade: '+sub_data['grade']]
+                msg += ['Status: '+sub_data['status']]
                 r = requests.post(line_url, headers=line_headers, data={
                     'message': '\n'.join(msg)})
                 print("Notified")
-            elif code in old_data and old_data[code]['grade'] != sub_data['grade']:
+            elif code in old_data and (old_data[code]['grade'] != sub_data['grade'] or old_data[code]['status'] != sub_data['status']):
                 print('\t', end='')
+                changed_data = []
+                changed_detail = []
+                if old_data[code]['grade'] != sub_data['grade']:
+                    changed_data.append('แก้ไขเกรด')
+                    changed_detail += ['แก้เกรดจาก '+old_data[code]
+                                       ['grade']+' เป็น '+sub_data['grade']]
+                if old_data[code]['grade'] != sub_data['grade']:
+                    changed_data += ['เปลี่ยนสถานะจาก '+old_data[code]
+                                     ['status']+' เป็น '+sub_data['status']]
+                    changed_detail += ['เปลี่ยนสถานะจาก '+old_data[code]
+                                       ['status']+' เป็น '+sub_data['status']]
                 if code in announce_list:
-                    msg = [code+' '+sub_data['name'] +
-                           ' แก้ไขเกรดในระบบแล้ว', '']
+                    msg = [code+' '+sub_data['name'] + ' Sec: ' + sub_data['section'] +
+                           ' แก้ไขข้อมูลเกรดในระบบแล้ว', '']
                     if useTwitter:
-                        print(api.PostUpdate('BOT: '+msg[0]).text)
+                        print(api.PostUpdate(
+                            'BOT: '+msg[0]).text+'\nนั่นคือ '+' และ'.join(changed_data))
+                    msg += ['นั่นคือ '+' และ'.join(changed_data)]
                     msg += ['สามารถดูได้ที่ https://goo.gl/kUBHfa',
                             'หรือผ่านแอพ NisitKU']
                     r = requests.post(line_url, headers=group_line_headers, data={
                         'message': '\n'.join(msg)})
                     print("Announced & ", end='')
                 msg = ['['+code+'] '+sub_data['name'] +
-                       ' Credit: '+sub_data['credit']]
+                       ' Section: '+sub_data['section']]
                 msg += ['ได้แก้ไขเกรดในระบบแล้ว']
-                msg += ['From: '+old_data[code]['grade']]
-                msg += ['Grade: '+sub_data['grade']]
+                msg += changed_detail
                 r = requests.post(line_url, headers=line_headers, data={
                     'message': '\n'.join(msg)})
                 print("Notified")
