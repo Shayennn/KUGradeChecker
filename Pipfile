@@ -12,6 +12,7 @@ numpy = "*"
 tensorflow = "*"
 lxml = "*"
 flake8 = "*"
+python-twitter = "*"
 
 [requires]
 python_version = "3.7"
