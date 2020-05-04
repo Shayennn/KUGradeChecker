@@ -103,7 +103,7 @@ if __name__ == "__main__":
                         changed_data.append('แก้ไขเกรด')
                         changed_detail += ['แก้เกรดจาก '+old_data[code]
                                            ['grade']+' เป็น '+sub_data['grade']]
-                    if old_data[code]['grade'] != sub_data['grade']:
+                    if old_data[code]['status'] != sub_data['status']:
                         changed_data += ['เปลี่ยนสถานะจาก '+old_data[code]
                                          ['status']+' เป็น '+sub_data['status']]
                         changed_detail += ['เปลี่ยนสถานะจาก '+old_data[code]
