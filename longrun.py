@@ -35,14 +35,14 @@ if __name__ == "__main__":
         useTwitter = False
 
     try:
-        with open('credential_nisitku.pkl', 'rb') as output:
+        with open('credential_api.pkl', 'rb') as output:
             line_token, group_line_token = pickle.load(
                 output)
             output.close()
     except FileNotFoundError:
         line_token = input('LineToken: ')
         group_line_token = input('Group_Token: ')
-        with open('credential_nisitku.pkl', mode='wb') as output:
+        with open('credential_api.pkl', mode='wb') as output:
             pickle.dump((line_token, group_line_token), output)
             output.close()
 
@@ -58,7 +58,7 @@ if __name__ == "__main__":
                           'Authorization': 'Bearer '+group_line_token}
     while True:
         try:
-            with open('nisitku_data.pkl', 'rb') as output:
+            with open('api_data.pkl', 'rb') as output:
                 old_data = pickle.load(output)
                 output.close()
         except FileNotFoundError:
@@ -83,7 +83,7 @@ if __name__ == "__main__":
                         if useTwitter:
                             print(api.PostUpdate('BOT: '+msg[0]).text)
                         msg += ['สามารถดูได้ที่ https://goo.gl/kUBHfa',
-                                'หรือผ่านแอพ NisitKU']
+                                'หรือผ่านแอพ api']
                         r = requests.post(line_url, headers=group_line_headers, data={
                             'message': '\n'.join(msg)})
                         print("Announced & ", end='')
@@ -116,7 +116,7 @@ if __name__ == "__main__":
                                 'BOT: '+msg[0]).text+'\nนั่นคือ '+' และ'.join(changed_data))
                         msg += ['นั่นคือ '+' และ'.join(changed_data)]
                         msg += ['สามารถดูได้ที่ https://goo.gl/kUBHfa',
-                                'หรือผ่านแอพ NisitKU']
+                                'หรือผ่านแอพ api']
                         r = requests.post(line_url, headers=group_line_headers, data={
                             'message': '\n'.join(msg)})
                         print("Announced & ", end='')
@@ -127,7 +127,7 @@ if __name__ == "__main__":
                     r = requests.post(line_url, headers=line_headers, data={
                         'message': '\n'.join(msg)})
                     print("Notified")
-            with open('nisitku_data.pkl', mode='wb') as output:
+            with open('api_data.pkl', mode='wb') as output:
                 pickle.dump(data, output)
                 output.close()
         else:
