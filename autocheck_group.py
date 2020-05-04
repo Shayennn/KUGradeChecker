@@ -6,6 +6,7 @@ from getpass import getpass
 import requests
 from check_by_nisitku import GradeChecker
 import twitter
+import sys
 
 
 if __name__ == "__main__":
@@ -28,6 +29,7 @@ if __name__ == "__main__":
             access_token_secret = twitter_credential[3]
             output.close()
             useTwitter = True
+            print("Using TwitterAPI", file=sys.stderr)
     except FileNotFoundError:
         useTwitter = False
 
