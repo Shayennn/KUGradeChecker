@@ -80,11 +80,9 @@ if __name__ == "__main__":
                 print('\t', end='')
                 if code in announce_list:
                     msg = [code+' '+sub_data['name'] + ' Sec: ' + sub_data['section'] +
-                           ' อัพโหลดเกรดขึ้นระบบแล้ว', '']
+                           ' บันทึกเกรดขึ้นระบบแล้ว', '']
                     if useTwitter:
                         print(api.PostUpdate('BOT: '+msg[0]).text)
-                    msg += ['สามารถดูได้ที่ https://goo.gl/kUBHfa',
-                            'หรือผ่านแอพ api']
                     r = requests.post(line_url, headers=group_line_headers, data={
                         'message': '\n'.join(msg)})
                     print("Announced & ", end='')
@@ -111,19 +109,17 @@ if __name__ == "__main__":
                                        ['status']+' เป็น '+sub_data['status']]
                 if code in announce_list:
                     msg = [code+' '+sub_data['name'] + ' Sec: ' + sub_data['section'] +
-                           ' แก้ไขข้อมูลเกรดในระบบแล้ว', '']
+                           ' แก้ไขข้อมูลในระบบแล้ว', '']
                     if useTwitter:
                         print(api.PostUpdate(
                             'BOT: '+msg[0]).text+'\nนั่นคือ '+' และ'.join(changed_data))
                     msg += ['นั่นคือ '+' และ'.join(changed_data)]
-                    msg += ['สามารถดูได้ที่ https://goo.gl/kUBHfa',
-                            'หรือผ่านแอพ api']
                     r = requests.post(line_url, headers=group_line_headers, data={
                         'message': '\n'.join(msg)})
                     print("Announced & ", end='')
                 msg = ['['+code+'] '+sub_data['name'] +
                        ' Section: '+sub_data['section']]
-                msg += ['ได้แก้ไขเกรดในระบบแล้ว']
+                msg += ['ได้แก้ไขข้อมูลในระบบแล้ว']
                 msg += changed_detail
                 r = requests.post(line_url, headers=line_headers, data={
                     'message': '\n'.join(msg)})
