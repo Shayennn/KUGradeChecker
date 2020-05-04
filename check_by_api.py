@@ -37,7 +37,7 @@ class GradeChecker:
         for course in data['data']:
             if course['grade'] is None:
                 course['grade'] = ''
-            if course['status'] == 0:
+            if course['status'] == 1:
                 course['status'] = 'ทางการ'
             else:
                 course['status'] = 'ไม่เป็นทางการ'
