@@ -35,18 +35,19 @@ class GradeChecker:
             return (False, data['error_msg'])
         grade = {}
         for course in data['data']:
-            if course['grade'] is not None:
-                if course['status'] == 0:
-                    course['status'] = 'ทางการ'
-                else:
-                    course['status'] = 'ไม่เป็นทางการ'
-                grade[course['code']] = {
-                    'name': course['name'],
-                    'section': str(course['section']),
-                    'credit': '0',
-                    'grade': course['grade'],
-                    'status': course['status'],
-                }
+            if course['grade'] is None:
+                course['grade'] = ''
+            if course['status'] == 0:
+                course['status'] = 'ทางการ'
+            else:
+                course['status'] = 'ไม่เป็นทางการ'
+            grade[course['code']] = {
+                'name': course['name'],
+                'section': str(course['section']),
+                'credit': '0',
+                'grade': course['grade'],
+                'status': course['status'],
+            }
         return (True, grade)
 
 
