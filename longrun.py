@@ -80,6 +80,7 @@ if __name__ == "__main__":
                     if code in announce_list:
                         msg = [code+' '+sub_data['name'] + ' Sec: ' + sub_data['section'] +
                                ' บันทึกเกรดขึ้นระบบแล้ว', '']
+                        msg += ['Status: '+sub_data['status']]
                         if useTwitter:
                             try:
                                 print(api.PostUpdate('BOT: '+msg[0]).text)
