@@ -87,7 +87,7 @@ if __name__ == "__main__":
                                 print(e)
                         r = requests.post(line_url, headers=group_line_headers, data={
                             'message': '\n'.join(msg)})
-                        print("Announced & ", end='')
+                        print("\tAnnounced & ", end='')
                     msg = ['['+code+'] '+sub_data['name'] +
                            ' Section: '+sub_data['section']]
                     msg += ['ได้บันทึกเกรดลงระบบแล้ว']
@@ -121,7 +121,7 @@ if __name__ == "__main__":
                         msg += ['นั่นคือ '+' และ'.join(changed_data)]
                         r = requests.post(line_url, headers=group_line_headers, data={
                             'message': '\n'.join(msg)})
-                        print("Announced & ", end='')
+                        print("\tAnnounced & ", end='')
                     msg = ['['+code+'] '+sub_data['name'] +
                            ' Section: '+sub_data['section']]
                     msg += ['ได้แก้ไขข้อมูลในระบบแล้ว']
