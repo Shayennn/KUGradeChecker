@@ -112,7 +112,7 @@ if __name__ == "__main__":
                            ' แก้ไขข้อมูลในระบบแล้ว', '']
                     if useTwitter:
                         print(api.PostUpdate(
-                            'BOT: '+msg[0]).text+'\nนั่นคือ '+' และ'.join(changed_data))
+                            'BOT: '+msg[0]+'\nนั่นคือ '+' และ'.join(changed_data)).text)
                     msg += ['นั่นคือ '+' และ'.join(changed_data)]
                     r = requests.post(line_url, headers=group_line_headers, data={
                         'message': '\n'.join(msg)})
