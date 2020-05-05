@@ -82,7 +82,10 @@ if __name__ == "__main__":
                     msg = [code+' '+sub_data['name'] + ' Sec: ' + sub_data['section'] +
                            ' บันทึกเกรดขึ้นระบบแล้ว', '']
                     if useTwitter:
-                        print(api.PostUpdate('BOT: '+msg[0]).text)
+                        try:
+                            print(api.PostUpdate('BOT: '+msg[0]).text)
+                        except twitter.error.TwitterError as e:
+                            print(e)
                     r = requests.post(line_url, headers=group_line_headers, data={
                         'message': '\n'.join(msg)})
                     print("Announced & ", end='')
@@ -111,8 +114,11 @@ if __name__ == "__main__":
                     msg = [code+' '+sub_data['name'] + ' Sec: ' + sub_data['section'] +
                            ' แก้ไขข้อมูลในระบบแล้ว', '']
                     if useTwitter:
-                        print(api.PostUpdate(
-                            'BOT: '+msg[0]+'\nนั่นคือ '+' และ'.join(changed_data)).text)
+                        try:
+                            print(api.PostUpdate(
+                                'BOT: '+msg[0]+'\nนั่นคือ '+' และ'.join(changed_data)).text)
+                        except twitter.error.TwitterError as e:
+                            print(e)
                     msg += ['นั่นคือ '+' และ'.join(changed_data)]
                     r = requests.post(line_url, headers=group_line_headers, data={
                         'message': '\n'.join(msg)})
