@@ -73,9 +73,9 @@ if __name__ == "__main__":
                       'Section:', sub_data['section'])
                 print('\tGrade:', sub_data['grade'])
                 print('\tStatus:', sub_data['status'])
-                if sub_data['grade'] == 'N':
+                if sub_data['grade'] == '':
                     continue
-                if (code not in old_data or old_data[code]['grade'] == 'N') and sub_data['grade'] != '':
+                if (code not in old_data or old_data[code]['grade'] == '') and sub_data['grade'] != '':
                     print('\t', end='')
                     if code in announce_list:
                         msg = [code+' '+sub_data['name'] + ' Sec: ' + sub_data['section'] +
